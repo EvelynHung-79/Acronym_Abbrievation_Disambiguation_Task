@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="HandheldFriendly" content="true">
+    <script src="bootstrap.bundle.min.js"></script>
+    <link rel=stylesheet type="text/css" href="bootstrap.min.css">
+    <title>AI Model API Demo</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div style="display: flex; flex-direction: column; align-items:center; justify-content:center; width: 100vw; height: 100vh; gap:2vh;">
+        <h1>AI Model API Demo</h1>
+        <div style="display: flex; flex-direction:row; width: 100%; align-items:center; justify-content:center; gap: 2vw;">
+            <input type="text" id="inputbox" style="width: 40%">
+            <button id="predictButton" class="btn btn-primary">Make Prediction</button>
+        </div>
+        <div id="resultContainer" style="display: none; flex-direction: column; width: 50%; gap: 1vh; padding: 2vh 2vw; border-radius: 15px;">
+            <h4 id="sentence"></h4>
+            <h5>The highlighted word is a detected acronym/abbrievation. And it has some possible full forms shown below.</h5>
+            <table id="answer_table">
+            </table>
+        </div>
+    </div>
+    
+
+</body>
+<script src="index.js"></script>
+</html>
