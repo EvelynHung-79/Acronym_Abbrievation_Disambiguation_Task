@@ -9,10 +9,13 @@ document.getElementById('predictButton').addEventListener('click', async () => {
 
             // Sentence Display and highlight
             var wordsToHighlight = results.acronyms.map(acronymObj => acronymObj.acronym);
+            var expansions = results.acronyms.map(acronymObj => acronymObj.expansion);
             var words = results.sentence.split(' ');
             for (var i = 0; i < words.length; i++) {
                 if (wordsToHighlight.includes(words[i])) {
                     words[i] = '<span class="highlight">' + words[i] + '</span>';
+                    words[i] += `(${expansions[0]})`;
+                    expansions.shift();
                 }
             }
             var updatedSentence = words.join(' ');
@@ -77,7 +80,7 @@ function generateContainersForAcronym(results) {
             let td3 = document.createElement('td');
             td1.textContent = acronymObj.acronym;
             td2.textContent = choice.expansion;
-            td3.textContent = choice.prob;
+            td3.textContent = (choice.prob * 100).toFixed(3) + '%';
             row.append(td1, td2, td3);
             table.append(row);
         })
