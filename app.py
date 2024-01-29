@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+import model_usage
 
 app = Flask(__name__)
 CORS(app)
@@ -18,22 +19,11 @@ def predict():
         return jsonify({'error': str(e)})
 
 def make_prediction(data):
-    resBody = {
-        "sentence": data,
-        "position": 2,
-        "shortened form": "SVM",
-        "answer": [
-            {
-                "word": "state vector machine",
-                "percentage": 0.13
-            },
-            {
-                "word": "support vector machine",
-                "percentage": 0.87
-            }
-        ]
-    }
-    return resBody
+    result = model_usage.get_result(data)
+    return result
 
 if __name__ == '__main__':
+    # result = model_usage.get_result("AR and VR technologies are revolutionizing the way we experience digital content.")
+    # print(result)
     app.run(debug=True)
+    
