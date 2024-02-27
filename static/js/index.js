@@ -1,11 +1,19 @@
+document.getElementById('inputbox').addEventListener('keyup', function(e) {
+    if (e.key === 'Enter' || e.keyCode === 13) {
+        requestPrediction();
+    }
+});
 document.getElementById('predictButton').addEventListener('click', async () => {
+    requestPrediction()
+});
+
+async function requestPrediction() {
     const inputData = document.getElementById('inputbox').value;
     try {
         let response = await callAPI(inputData);
         if (response.results) {
             let results = response.results;
 
-            // Sentence Display and highlight
             var wordsToHighlight = results.acronyms.map(acronymObj => acronymObj.acronym);
             var expansions = results.acronyms.map(acronymObj => acronymObj.expansion);
             var words = results.sentence.split(' ');
@@ -27,7 +35,7 @@ document.getElementById('predictButton').addEventListener('click', async () => {
     } catch (error) {
         console.error('Error:', error);
     }
-});
+}
 
 async function callAPI(reqbody) {
     try {
@@ -59,7 +67,6 @@ function generateContainersForAcronym(results) {
             </div>
         </div>`;
 
-        // generate table for each acronym
         let table = document.createElement('table');
         table.classList = 'tables';
         table.innerHTML = `<tr>
