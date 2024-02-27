@@ -1,9 +1,7 @@
-const apiUrl = 'http://10.53.111.47:5000/predict';
-
 document.getElementById('predictButton').addEventListener('click', async () => {
     const inputData = document.getElementById('inputbox').value;
     try {
-        let response = await callAPI(apiUrl, inputData);
+        let response = await callAPI(inputData);
         if (response.results) {
             let results = response.results;
 
@@ -31,9 +29,9 @@ document.getElementById('predictButton').addEventListener('click', async () => {
     }
 });
 
-async function callAPI(apiUrl, reqbody) {
+async function callAPI(reqbody) {
     try {
-        const response = await fetch(apiUrl, {
+        const response = await fetch('/predict', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
