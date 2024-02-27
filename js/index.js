@@ -1,4 +1,4 @@
-const apiUrl = 'http://localhost:5000/predict';
+const apiUrl = 'http://10.53.111.47:5000/predict';
 
 document.getElementById('predictButton').addEventListener('click', async () => {
     const inputData = document.getElementById('inputbox').value;

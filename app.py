@@ -12,18 +12,15 @@ def predict():
         if data is None:
             raise ValueError('Error parsing JSON data')
         
-        results = make_prediction(data)
+        results = model_usage.get_result(data)
         return jsonify({'results': results})
 
     except Exception as e:
         return jsonify({'error': str(e)})
 
-def make_prediction(data):
-    result = model_usage.get_result(data)
-    return result
 
 if __name__ == '__main__':
     # result = model_usage.get_result("AR and VR technologies are revolutionizing the way we experience digital content.")
     # print(result)
-    app.run(debug=True)
+    app.run(host="0.0.0.0", debug=True)
     
