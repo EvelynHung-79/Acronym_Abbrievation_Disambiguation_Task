@@ -1,28 +1,25 @@
-document.getElementById('inputbox').addEventListener('keyup', function(e) {
-    if (e.key === 'Enter' || e.keyCode === 13) {
-        requestPrediction();
-    }
-});
+const apiUrl = 'http://180.217.65.145:5000/predict';
+//180.217.65.145
 document.getElementById('predictButton').addEventListener('click', async () => {
-    requestPrediction();
-});
-
-async function requestPrediction() {
     const inputData = document.getElementById('inputbox').value;
     try {
-        let response = await callAPI(inputData);
+        let response = await callAPI(apiUrl, inputData);
         if (response.results) {
             let results = response.results;
 
+            // Sentence Display and highlight
             var wordsToHighlight = results.acronyms.map(acronymObj => acronymObj.acronym);
             var expansions = results.acronyms.map(acronymObj => acronymObj.expansion);
-            let sentence = results.sentence;
-            wordsToHighlight.forEach((word, index) => {
-                const regex = new RegExp('\\b' + word + '\\b', 'gi'); // Match whole word only
-                const replacement = `<span class="highlight">${word}</span> (${expansions[index]})`;
-                sentence = sentence.replace(regex, replacement);
-              });
-            document.getElementById('sentence').innerHTML = sentence;
+            var words = results.sentence.split(' ');
+            for (var i = 0; i < words.length; i++) {
+                if (wordsToHighlight.includes(words[i])) {
+                    words[i] = '<span class="highlight">' + words[i] + '</span>';
+                    words[i] += `(${expansions[0]})`;
+                    expansions.shift();
+                }
+            }
+            var updatedSentence = words.join(' ');
+            document.getElementById('sentence').innerHTML = updatedSentence;
 
             generateContainersForAcronym(results);
             document.getElementById('resultContainer').style.display = 'flex';
@@ -32,11 +29,11 @@ async function requestPrediction() {
     } catch (error) {
         console.error('Error:', error);
     }
-}
+});
 
-async function callAPI(reqbody) {
+async function callAPI(apiUrl, reqbody) {
     try {
-        const response = await fetch('/predict', {
+        const response = await fetch(apiUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -64,6 +61,7 @@ function generateContainersForAcronym(results) {
             </div>
         </div>`;
 
+        // generate table for each acronym
         let table = document.createElement('table');
         table.classList = 'tables';
         table.innerHTML = `<tr>
